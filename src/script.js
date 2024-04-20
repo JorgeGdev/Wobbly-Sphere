@@ -32,18 +32,24 @@ const rgbeLoader = new RGBELoader()
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath('./draco/')
 const gltfLoader = new GLTFLoader()
+const cubeTextureLoader = new THREE.CubeTextureLoader()
 gltfLoader.setDRACOLoader(dracoLoader)
 
 /**
  * Environment map
  */
-rgbeLoader.load('./urban_alley_01_1k.hdr', (environmentMap) =>
-{
-    environmentMap.mapping = THREE.EquirectangularReflectionMapping
+const environmentMap = cubeTextureLoader.load([
 
-    scene.background = environmentMap
-    scene.environment = environmentMap
-})
+    "/environment/px.png",
+    "/environment/nx.png",
+    "/environment/py.png",
+    "/environment/ny.png",
+    "/environment/pz.png",
+    "/environment/nz.png"
+])
+scene.environment = environmentMap
+scene.background = environmentMap
+
 
 /**
  * Wobble
@@ -155,7 +161,7 @@ gltfLoader.load("./suzanne.glb", (gltf) => {
     //gltf.scene.rotation.y = Math.PI *0.5
     scene.add(gltf.scene);
 
-    console.log(gltf);
+    
 });
 
 
